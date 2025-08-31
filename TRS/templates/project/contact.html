@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Technical Skills & Training</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<style>
+  body {
+    background: linear-gradient(135deg, #6a11cb, #2575fc);
+    font-family: 'Segoe UI', sans-serif;
+    min-height: 100vh;
+    color: white;
+  }
+  .navbar { padding: 1rem 0; font-size: 1.1rem; }
+  .nav-link { padding: 0 1.5rem; }
+
+  .banner {
+    background: rgba(0,0,0,0.6);
+    padding: 20px;
+    border-radius: 20px;
+    margin: 90px auto 30px;
+    max-width: 900px;
+    text-align: center;
+    color: #fff;
+    font-weight: bold;
+    font-size: 1.4rem;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.4);
+  }
+
+  .glass-card {
+    background: rgba(255, 255, 255, 0.12);
+    backdrop-filter: blur(12px);
+    border-radius: 20px;
+    padding: 25px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.35);
+    transition: transform 0.3s ease;
+  }
+  .glass-card:hover { transform: translateY(-6px); }
+
+  .btn-submit {
+    background: linear-gradient(90deg, #6a11cb, #2575fc);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    padding: 12px;
+    width: 100%;
+    transition: 0.3s ease;
+    font-weight: bold;
+  }
+  .btn-submit:hover { 
+    background: linear-gradient(90deg, #2575fc, #6a11cb); 
+    transform: scale(1.05); 
+  }
+
+  .teacher-table th {
+    background: rgba(255,255,255,0.2);
+    color: #fff;
+    text-align: center;
+  }
+  .teacher-table td {
+    background: rgba(255,255,255,0.1);
+    color: #fff;
+    text-align: center;
+  }
+
+  .footer { 
+    background: #212529; 
+    color: white; 
+    padding: 25px 0; 
+    margin-top: 40px;
+  }
+  .footer a { color: #ffc107; text-decoration: none; }
+  .footer a:hover { text-decoration: underline; }
+
+  #popup-msg {
+    position: fixed; top: 20px; right: 20px; padding: 15px 25px;
+    border-radius: 8px; color: white; font-weight: bold; z-index: 9999;
+    box-shadow: 0px 4px 12px rgba(0,0,0,0.3);
+    animation: slideIn 0.5s ease, fadeOut 0.5s ease 2.8s forwards;
+  }
+  @keyframes slideIn { from { opacity: 0; transform: translateX(100%); } to { opacity: 1; transform: translateX(0); } }
+  @keyframes fadeOut { to { opacity: 0; transform: translateX(100%); } }
+</style>
+</head>
+<body>
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+  <div class="container">
+    <a class="navbar-brand fw-bold" href="#">SkillHub</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" 
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+        <li class="nav-item"><a class="nav-link" href="/tech">Technical Skills</a></li>
+        <li class="nav-item"><a class="nav-link" href="/soft">Soft Skills</a></li>
+        <li class="nav-item"><a class="nav-link" href="#">Creative Skills</a></li>
+        <li class="nav-item"><a class="nav-link" href="#">Vocational Skills</a></li>
+        <li class="nav-item"><a class="nav-link active" href="{% url 'contact' %}">Connect</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- Banner -->
+<div class="banner">
+  🚀 Your journey to learning starts with a single message — let’s connect!
+</div>
+
+<!-- Main Content -->
+<div class="container">
+  <div class="row g-4">
+
+    <!-- Teacher Table -->
+    <div class="col-lg-7">
+      <div class="glass-card">
+        <h3 class="mb-3 text-center text-warning">Available Teachers</h3>
+        {% if table_data %}
+        <div class="table-responsive">
+          <table class="table table-bordered table-hover teacher-table align-middle">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Course code</th>
+                <th>Email</th>
+                <th>Timings</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for t in table_data %}
+              <tr>
+                <td>{{ t.tname }}</td>
+                <td>{{ t.tprefer }}</td>
+                <td>{{ t.tgmail }}</td>
+                <td>{{ t.ttimings }}</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+        {% else %}
+        <p class="text-center">No teachers found.</p>
+        {% endif %}
+      </div>
+    </div>
+
+    <!-- Contact Form -->
+    <div class="col-lg-5">
+      <div class="glass-card">
+        <h3 class="text-center mb-4 text-info">Regsiter Here</h3>
+        <form method="post" action="{% url 'contact' %}">
+          {% csrf_token %}
+          <div class="mb-3">
+            <label for="name" class="form-label fw-semibold">Name</label>
+            <input type="text" name="name" id="name" class="form-control rounded-3 shadow-sm" placeholder="Enter your name">
+          </div>
+
+          <div class="mb-3">
+            <label for="prefer" class="form-label fw-semibold">Enter the Course-Code</label>
+            <input type="text" name="prefer" id="prefer" class="form-control rounded-3 shadow-sm" placeholder="Your preference">
+          </div>
+
+          <div class="mb-3">
+            <label for="gmail" class="form-label fw-semibold">Email</label>
+            <input type="email" name="gmail" id="gmail" class="form-control rounded-3 shadow-sm" placeholder="Enter your email">
+          </div>
+
+          <div class="mb-3">
+            <label for="timings" class="form-label fw-semibold">Timings</label>
+            <input type="text" name="timings" id="timings" class="form-control rounded-3 shadow-sm" placeholder="Your available timings">
+          </div>
+
+          <button type="submit" class="btn-submit">Submit</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- ✅ Success / Error message -->
+{% if message %}
+    <div 
+        style="padding:10px; margin-bottom:15px; border-radius:5px;
+               {% if status == 'success' %} background-color:#d4edda; color:#155724;
+               {% elif status == 'error' %} background-color:#f8d7da; color:#721c24;
+               {% endif %}">
+        {{ message }}
+    </div>
+{% endif %}
+
+<!-- Footer -->
+<div class="footer text-center">
+  <div class="container">
+    <p>© 2025 SkillHub. All rights reserved.</p>
+    <p>
+      <a href="#">Quick Links</a> | 
+      <a href="#">Contact</a> | 
+      <a href="#">Privacy Policy</a>
+    </p>
+    <div>
+      <a href="#">Facebook</a> | 
+      <a href="#">Twitter</a> | 
+      <a href="#">LinkedIn</a>
+    </div>
+  </div>
+</div>
+
+<!-- Popup message -->
+{% if message %}
+<div id="popup-msg" class="{{ status }}">
+  {{ message }}
+</div>
+<script>
+  var popup = document.getElementById("popup-msg");
+  if ("{{ status }}" === "success") {
+    popup.style.backgroundColor = "#28a745";
+  } else {
+    popup.style.backgroundColor = "#dc3545";
+  }
+  setTimeout(() => { popup.style.display = "none"; }, 3000);
+</script>
+{% endif %}
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

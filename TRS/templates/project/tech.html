@@ -1,0 +1,302 @@
+{% load static %}
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Technical Skills & Training</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+	<style>
+    body {
+      padding-top: 80px; /* prevent navbar overlap */
+    }
+
+    #bg-video {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: -1;
+    }
+
+    /* Dark overlay for readability */
+    .overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.4);
+      z-index: 0;
+    }
+    .navbar {
+      padding-top: 1rem;
+      padding-bottom: 1rem;
+      font-size: 1.1rem;
+    }
+    .nav-link {
+      padding-left: 1.5rem;
+      padding-right: 1.5rem;
+    }
+    .card {
+      margin-bottom: 20px;
+      border-radius: 12px;
+      box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    }
+    .roadmap-img {
+      max-width: 100%;
+      border-radius: 8px;
+    }
+    .testimonial {
+      font-style: italic;
+    }
+
+    .footer { 
+      background: #343a40; 
+      color: white; 
+      padding: 20px 0;
+      position:relative;
+      z-index:1; 
+    }
+    .footer a { color: #ffc107; text-decoration: none; }
+    .footer a:hover { text-decoration: underline; }
+
+    /* Hover effects only */
+    .skill-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+    }
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 16px rgba(0,0,0,0.15);
+    }
+    .card .btn:hover {
+      background-color: #0056b3;
+    }
+</style>
+</head>
+<body class="container-fluid">
+
+  <video autoplay muted loop id="bg-video">
+    <source src="{% static 'project/v4.mp4' %}" type="video/mp4">
+    Your browser does not support HTML5 video.
+  </video>
+  <div class="overlay"></div>
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+  <div class="container">
+    <a class="navbar-brand fw-bold" href="#">SkillHub</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" 
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto align-items-center">
+        <!-- Main links -->
+        <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+        <li class="nav-item"><a class="nav-link active" href="/tech">Technical Skills</a></li>
+        <li class="nav-item"><a class="nav-link" href="/soft">Soft Skills</a></li>
+        <li class="nav-item"><a class="nav-link" href="#">Creative Skills</a></li>
+        <li class="nav-item"><a class="nav-link" href="#">Vocational Skills</a></li>
+        {% if not user.is_authenticated %}
+        <li class="nav-item"><a class="nav-link" href="/contact">Connect</a></li>
+        {% endif %}
+
+        <!-- Authenticated User Buttons -->
+        {% if user.is_authenticated %}
+        <li class="nav-item d-flex align-items-center ms-3">
+          <span class="text-white me-2">Hello, {{ user.username }}!</span>
+          <a class="btn btn-outline-primary btn-sm me-2" href="{% url 'teach' %}">View</a>
+          <a class="btn btn-outline-danger btn-sm" href="{% url 'logout' %}">Logout</a>
+        </li>
+        {% endif %}
+      </ul>
+    </div>
+  </div>
+</nav>
+<br><br>
+  <div style="background: linear-gradient(to right, rgba(0,0,0,0.8), rgba(128,128,128,0.8)); padding: 20px; border:2px solid red; border-radius: 50px 20px; margin:5px 0 0 0;">
+    <h1 class="text-center" style="font-size: 30px; color: white;">
+      Explore our range of technical courses designed to equip you with the skills needed for modern industry.
+    </h1>
+  </div>
+<br>
+
+<div class="row text-center" style="margin-top:10px">
+  <div class="col-md-6 mb-3">
+    <div class="card bg-primary text-white h-100">
+      <div class="card-body">
+        <h3 class="card-title">Start Learning Today</h3>
+        <p class="card-text">Join now and take your technical skills to the next level.</p>
+        <a href="/contact" class="btn btn-warning">Join Now</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-6 mb-3">
+    <div class="card bg-primary text-white h-100">
+      <div class="card-body">
+        <h3 class="card-title">Start Teaching Today</h3>
+        <p class="card-text">Join now and take your technical skills to the next person.</p>
+        <a href="/join" class="btn btn-warning">Join Now</a>
+	<a href="/login" class="btn btn-warning">Login</a>
+      </div>
+    </div>
+  </div>
+</div>
+    <section class="container my-5">
+        <h2 class="text-center mb-4" style="color: white;font-family: 'Lucida Sans';">Technical Skill Categories</h2>
+        <div class="row g-4">
+            <!-- Programming Languages -->
+            <div class="col-md-4">
+                <div class="card skill-card" style="border-radius:15px;transition:transform 0.3s ease,box-shadow 0.3s ease;border:none;box-shadow:0 4px 10px rgba(0,0,0,0.1);">
+                    <div class="card-body text-center">
+                        <img src="https://img.icons8.com/color/96/code.png" alt="Programming Icon" class="mb-3" style="width:70px;height:70px;">
+                        <h5 class="card-title" style="font-weight:bold;font-size:1.25rem;">Programming Languages</h5>
+                        <p class="card-text" style="font-size:0.95rem;color:#555;">C, C++, Java, Python, JavaScript, SQL</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Web Development -->
+            <div class="col-md-4">
+                <div class="card skill-card" style="border-radius:15px;transition:transform 0.3s ease,box-shadow 0.3s ease;border:none;box-shadow:0 4px 10px rgba(0,0,0,0.1);">
+                    <div class="card-body text-center">
+                        <img src="https://img.icons8.com/color/96/html-5--v1.png" alt="Web Icon" class="mb-3" style="width:70px;height:70px;">
+                        <h5 class="card-title" style="font-weight:bold;font-size:1.25rem;">Web Development</h5>
+                        <p class="card-text" style="font-size:0.95rem;color:#555;">HTML, CSS, Bootstrap, React, Node.js</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Databases -->
+            <div class="col-md-4">
+                <div class="card skill-card" style="border-radius:15px;transition:transform 0.3s ease,box-shadow 0.3s ease;border:none;box-shadow:0 4px 10px rgba(0,0,0,0.1);">
+                    <div class="card-body text-center">
+                        <img src="https://img.icons8.com/color/96/database.png" alt="Database Icon" class="mb-3" style="width:70px;height:70px;">
+                        <h5 class="card-title" style="font-weight:bold;font-size:1.25rem;">Databases</h5>
+                        <p class="card-text" style="font-size:0.95rem;color:#555;">MySQL, PostgreSQL, MongoDB</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tools & Technologies -->
+            <div class="col-md-4">
+                <div class="card skill-card" style="border-radius:15px;transition:transform 0.3s ease,box-shadow 0.3s ease;border:none;box-shadow:0 4px 10px rgba(0,0,0,0.1);">
+                    <div class="card-body text-center">
+                        <img src="https://img.icons8.com/color/96/toolbox.png" alt="Tools Icon" class="mb-3" style="width:70px;height:70px;">
+                        <h5 class="card-title" style="font-weight:bold;font-size:1.25rem;">Tools & Technologies</h5>
+                        <p class="card-text" style="font-size:0.95rem;color:#555;">Git, GitHub, Docker, VS Code</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Cloud Computing -->
+            <div class="col-md-4">
+                <div class="card skill-card" style="border-radius:15px;transition:transform 0.3s ease,box-shadow 0.3s ease;border:none;box-shadow:0 4px 10px rgba(0,0,0,0.1);">
+                    <div class="card-body text-center">
+                        <img src="https://img.icons8.com/color/96/cloud.png" alt="Cloud Icon" class="mb-3" style="width:70px;height:70px;">
+                        <h5 class="card-title" style="font-weight:bold;font-size:1.25rem;">Cloud Computing</h5>
+                        <p class="card-text" style="font-size:0.95rem;color:#555;">AWS, Azure, Google Cloud</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Data Science -->
+            <div class="col-md-4">
+                <div class="card skill-card" style="border-radius:15px;transition:transform 0.3s ease,box-shadow 0.3s ease;border:none;box-shadow:0 4px 10px rgba(0,0,0,0.1);">
+                    <div class="card-body text-center">
+                        <img src="https://img.icons8.com/color/96/artificial-intelligence.png" alt="Data Science Icon" class="mb-3" style="width:70px;height:70px;">
+                        <h5 class="card-title" style="font-weight:bold;font-size:1.25rem;">Data Science</h5>
+                        <p class="card-text" style="font-size:0.95rem;color:#555;">Machine Learning, Pandas, NumPy</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+<center>
+<section style="padding:50px 20px;text-align:center;width:80%;">
+    <h2 style="color: white;font-family: 'Lucida Sans';">Featured Courses & Workshops</h2>
+    <div style="display:flex;justify-content:center;gap:20px;flex-wrap:wrap;">
+
+        <div class="card" style="background:#fff;border-radius:10px;box-shadow:0 4px 8px rgba(0,0,0,0.1);width:300px;text-align:center;padding:20px;transition:transform 0.3s ease,box-shadow 0.3s ease;">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSvGCDR5nBpsRnjkCoIccrnqoKpDSYUTG7MLA&s" alt="Web Development" style="width:100%;height:180px;object-fit:cover;border-radius:8px;">
+            <h3 style="margin:15px 0 10px;font-size:1.4rem;color:#222;">Full-Stack Web Development</h3>
+            <p style="font-size:0.95rem;color:#555;margin-bottom:15px;">Learn HTML, CSS, JavaScript, React, Node.js, and more with hands-on projects.</p>
+            <a href="#" class="btn" style="display:inline-block;padding:10px 20px;background-color:#007bff;color:#fff;text-decoration:none;border-radius:5px;font-weight:bold;transition:background 0.3s ease;">Learn More</a>
+        </div>
+
+        <div class="card" style="background:#fff;border-radius:10px;box-shadow:0 4px 8px rgba(0,0,0,0.1);width:300px;text-align:center;padding:20px;transition:transform 0.3s ease,box-shadow 0.3s ease;">
+            <img src="https://www.mygreatlearning.com/blog/wp-content/uploads/2019/09/What-is-data-science-2.jpg" alt="Data Science" style="width:100%;height:180px;object-fit:cover;border-radius:8px;">
+            <h3 style="margin:15px 0 10px;font-size:1.4rem;color:#222;">Data Science Bootcamp</h3>
+            <p style="font-size:0.95rem;color:#555;margin-bottom:15px;">Master Python, Pandas, Machine Learning, and AI concepts for real-world use.</p>
+            <a href="#" class="btn" style="display:inline-block;padding:10px 20px;background-color:#007bff;color:#fff;text-decoration:none;border-radius:5px;font-weight:bold;transition:background 0.3s ease;">Learn More</a>
+        </div>
+
+        <div class="card" style="background:#fff;border-radius:10px;box-shadow:0 4px 8px rgba(0,0,0,0.1);width:300px;text-align:center;padding:20px;transition:transform 0.3s ease,box-shadow 0.3s ease;">
+            <img src="https://www.raxatechnosecuritysolutions.in/assets/img/Cyber-Security_Banner.jpg" alt="Cybersecurity" style="width:100%;height:180px;object-fit:cover;border-radius:8px;">
+            <h3 style="margin:15px 0 10px;font-size:1.4rem;color:#222;">Cybersecurity Fundamentals</h3>
+            <p style="font-size:0.95rem;color:#555;margin-bottom:15px;">Understand ethical hacking, network security, and defense strategies.</p>
+            <a href="#" class="btn" style="display:inline-block;padding:10px 20px;background-color:#007bff;color:#fff;text-decoration:none;border-radius:5px;font-weight:bold;transition:background 0.3s ease;">Learn More</a>
+        </div>
+
+    </div>
+</section>
+</center>
+<div class="container py-4">
+
+  <!-- Learning Roadmap 
+  <div class="card">
+    <div class="card-body">
+      <h3 class="card-title">Learning Roadmap</h3>
+      <p class="card-text">Follow the structured path from beginner to advanced technical skills.</p>
+      <img src="roadmap-placeholder.jpg" alt="Learning Roadmap" class="roadmap-img">
+    </div>
+  </div>
+
+  <!-- Testimonials -->
+  <div class="card">
+    <div class="card-body">
+      <h3 class="card-title">Testimonials / Success Stories</h3>
+      <div class="testimonial">"This platform helped me get my first developer job!" – Alex</div>
+      <div class="testimonial">"I built my first real-world project thanks to the guidance here." – Priya</div>
+    </div>
+  </div>-->
+
+  <!-- Downloadable Resources -->
+  <div class="card">
+    <div class="card-body">
+      <h3 class="card-title">Downloadable Resources</h3>
+      <ul>
+        <li><a href="#">PDF Roadmaps</a></li>
+        <li><a href="#">Cheat Sheets</a></li>
+        <li><a href="#">Sample Projects</a></li>
+      </ul>
+    </div>
+  </div>
+
+</div>
+
+<!-- Footer -->
+<div class="footer text-center" style="width:100%">
+  <div class="container">
+    <p>© 2025 SkillHub. All rights reserved.</p>
+    <p>
+      <a href="#">Quick Links</a> | 
+      <a href="#">Contact</a> | 
+      <a href="#">Privacy Policy</a>
+    </p>
+    <div>
+      <a href="#">Facebook</a> | 
+      <a href="#">Twitter</a> | 
+      <a href="#">LinkedIn</a>
+    </div>
+  </div>
+</div>
+
+
+
+</body>
+</html>

@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Skills Registration Form</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(to right, #6a11cb, #2575fc);
+            font-family: 'Arial', sans-serif;
+            color: white;
+            min-height: 100vh;
+        }
+        .navbar { padding: 1rem 0; font-size: 1.1rem; }
+        .nav-link { padding: 0 1.5rem; }
+        .form-container {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0px 8px 25px rgba(0,0,0,0.4);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .form-container:hover {
+            transform: translateY(-5px);
+            box-shadow: 0px 12px 30px rgba(0,0,0,0.5);
+        }
+        label { font-weight: bold; }
+        .form-control, .form-select { border-radius: 10px; }
+        .btn-custom {
+            background-color: #ff9800;
+            border: none;
+            color: white;
+            padding: 10px 25px;
+            border-radius: 25px;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+        .btn-custom:hover {
+            background-color: #e68a00;
+            transform: scale(1.05);
+        }
+        .footer {
+            background: #343a40;
+            color: white;
+            padding: 20px 0;
+            margin-top: 40px;
+        }
+        .footer a { color: #ffc107; text-decoration: none; }
+        .footer a:hover { text-decoration: underline; }
+        #popup-msg { animation: slideIn 0.5s ease, fadeOut 0.5s ease 2.5s forwards; }
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(100%); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        @keyframes fadeOut {
+            to { opacity: 0; transform: translateX(100%); }
+        }
+    </style>
+</head>
+<body>
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+    <div class="container">
+      <a class="navbar-brand fw-bold" href="#">SkillHub</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" 
+              aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+          <li class="nav-item"><a class="nav-link" href="/tech">Technical Skills</a></li>
+          <li class="nav-item"><a class="nav-link" href="/soft">Soft Skills</a></li>
+          <li class="nav-item"><a class="nav-link" href="/contact">Connect</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+  <br><br><br><br>
+
+  {% if user.is_authenticated %}
+    <div class="mb-3 text-end container">
+        <span class="me-2">Hello, {{ user.username }}!</span>
+        <a href="{% url 'logout' %}" class="btn btn-outline-danger btn-sm">Logout</a>
+    </div>
+  {% endif %}
+
+  <div class="container mt-5 pt-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-6 col-md-8">
+            <div class="form-container">
+                <h2 class="text-center mb-4">Teacher Registration Form</h2>
+                <form action="{% url 'join' %}" method="POST">
+                    {% csrf_token %}
+
+                    <div class="mb-3">
+                        <label for="name">Enter Your Name</label>
+                        <input type="text" id="name" name="name" class="form-control" placeholder="Enter Your Name" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="tprefer">Enter Your Preference</label>
+                        <input type="text" id="tprefer" name="tprefer" class="form-control" placeholder="Your Preference" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label>Select Your Gender</label><br>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" id="male" name="gender" value="Male" required>
+                            <label class="form-check-label" for="male">Male</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" id="female" name="gender" value="Female">
+                            <label class="form-check-label" for="female">Female</label>
+                        </div>
+                    </div>
+
+                    <!-- ✅ Gmail auto-filled from logged-in user -->
+                    <div class="mb-3">
+                            <label for="tgmail">Your Gmail</label>
+    <!-- Add name="tgmail" so it posts to the server -->
+    <input type="email" id="tgmail" name="tgmail" 
+           class="form-control" value="{{ user.username }}" readonly>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="Totalfee">Enter Your Fee (Total Course)</label>
+                        <input type="text" id="Totalfee" name="Totalfee" class="form-control" placeholder="In Rupees" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="fee">Enter Your Fee (Per 1 Hour)</label>
+                        <input type="text" id="fee" name="fee" class="form-control" placeholder="In Rupees" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="Ttime">Enter Course Duration</label>
+                        <input type="text" id="Ttime" name="Ttime" class="form-control" placeholder="In Weeks" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="ttimings">Select Your Timings</label>
+                        <select class="form-select" id="ttimings" name="ttimings" required>
+                            <option selected disabled>Choose your timing</option>
+                            <option>6:00 AM - 7:00 AM</option>
+                            <option>7:00 AM - 8:00 AM</option>
+                            <option>8:00 AM - 9:00 AM</option>
+                            <option>9:00 AM - 10:00 AM</option>
+                            <option>10:00 AM - 11:00 AM</option>
+                            <option>11:00 AM - 12:00 PM</option>
+                            <option>12:00 PM - 1:00 PM</option>
+                            <option>1:00 PM - 2:00 PM</option>
+                            <option>2:00 PM - 3:00 PM</option>
+                            <option>3:00 PM - 4:00 PM</option>
+                            <option>4:00 PM - 5:00 PM</option>
+                            <option>5:00 PM - 6:00 PM</option>
+                            <option>6:00 PM - 7:00 PM</option>
+                            <option>7:00 PM - 8:00 PM</option>
+                            <option>8:00 PM - 9:00 PM</option>
+                            <option>9:00 PM - 10:00 PM</option>
+                            <option>10:00 PM - 11:00 PM</option>
+                            <option>11:00 PM - 12:00 AM</option>
+                        </select>
+                    </div>
+
+                    <div class="text-center mt-4">
+                        <button type="submit" class="btn btn-custom">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <div class="footer text-center">
+    <div class="container">
+      <p>© 2025 SkillHub. All rights reserved.</p>
+      <p>
+        <a href="#">Quick Links</a> | 
+        <a href="#">Contact</a> | 
+        <a href="#">Privacy Policy</a>
+      </p>
+      <div>
+        <a href="#">Facebook</a> | 
+        <a href="#">Twitter</a> | 
+        <a href="#">LinkedIn</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Success / Failure Popup -->
+  {% if msg %}
+  <div id="popup-msg" class="{{ status }}" style="
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      padding: 15px 25px;
+      border-radius: 5px;
+      color: white;
+      font-weight: bold;
+      z-index: 9999;
+      box-shadow: 0px 4px 8px rgba(0,0,0,0.2);
+      ">
+      {{ msg }}
+  </div>
+
+  <script>
+      var popup = document.getElementById("popup-msg");
+      if ("{{ status }}" === "success") {
+          popup.style.backgroundColor = "#28a745"; // green
+      } else {
+          popup.style.backgroundColor = "#dc3545"; // red
+      }
+      setTimeout(function() {
+          popup.style.display = "none";
+      }, 3000);
+  </script>
+  {% endif %}
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
